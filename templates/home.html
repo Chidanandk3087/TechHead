@@ -1,0 +1,768 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+/* Modern Tech Theme Colors */
+:root {
+    --primary: #00D4FF;
+    --primary-dark: #0099CC;
+    --secondary: #7B61FF;
+    --accent: #FF4D8D;
+    --dark-bg: #0A0A14;
+    --card-bg: rgba(20, 20, 30, 0.8);
+    --text-light: #E2E8F0;
+    --text-muted: #94A3B8;
+}
+
+/* Tech Doodle Background */
+.tech-doodle-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--dark-bg) 0%, #1A1A2E 100%);
+    z-index: -1;
+    overflow: hidden;
+}
+
+.doodle-element {
+    position: absolute;
+    opacity: 0.1;
+    transition: all 0.5s ease;
+}
+
+.circuit-line {
+    position: absolute;
+    background: var(--primary);
+    opacity: 0.05;
+}
+
+.code-line {
+    position: absolute;
+    font-family: 'Courier New', monospace;
+    color: var(--primary);
+    font-size: 14px;
+    opacity: 0.08;
+}
+
+.binary-bg {
+    position: absolute;
+    font-family: monospace;
+    color: var(--primary);
+    font-size: 16px;
+    opacity: 0.03;
+    white-space: nowrap;
+}
+
+/* Hero Section */
+.hero-section {
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: transparent;
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 10;
+}
+
+.hero-title {
+    font-size: 4.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1rem;
+    text-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+    animation: glitch 3s infinite;
+}
+
+@keyframes glitch {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    1% {
+        transform: translateX(-1px);
+    }
+    2% {
+        transform: translateX(1px);
+    }
+    3% {
+        transform: translateX(0);
+    }
+}
+
+.hero-subtitle {
+    font-size: 1.5rem;
+    color: var(--text-light);
+    margin-bottom: 2rem;
+    font-weight: 300;
+    letter-spacing: 2px;
+}
+
+/* Tech Buttons */
+.btn-tech {
+    padding: 16px 40px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    border: none;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+}
+
+.btn-tech::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s ease;
+}
+
+.btn-tech:hover::before {
+    left: 100%;
+}
+
+.btn-tech:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 20px 40px rgba(0, 212, 255, 0.4);
+}
+
+.btn-tech-outline {
+    padding: 16px 40px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    background: transparent;
+    border: 2px solid var(--primary);
+    color: var(--primary);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-tech-outline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.1), transparent);
+    transition: left 0.6s ease;
+}
+
+.btn-tech-outline:hover::before {
+    left: 100%;
+}
+
+.btn-tech-outline:hover {
+    background: rgba(0, 212, 255, 0.1);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 212, 255, 0.2);
+}
+
+/* Tech Cards - Services */
+.services-section {
+    background: rgba(10, 10, 20, 0.8);
+    backdrop-filter: blur(20px);
+    padding: 120px 0;
+    position: relative;
+    z-index: 1;
+}
+
+.tech-card {
+    background: var(--card-bg);
+    border-radius: 24px;
+    padding: 60px 40px;
+    border: 1px solid rgba(0, 212, 255, 0.1);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: center;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.tech-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, transparent 30%, rgba(0, 212, 255, 0.05) 50%, transparent 70%);
+    transform: translateX(-100%);
+    transition: transform 0.8s ease;
+}
+
+.tech-card:hover::before {
+    transform: translateX(100%);
+}
+
+.tech-card:hover {
+    transform: translateY(-20px) scale(1.02);
+    border-color: var(--primary);
+    box-shadow: 
+        0 25px 50px rgba(0, 212, 255, 0.15),
+        0 0 50px rgba(0, 212, 255, 0.05);
+}
+
+/* Tech Icon Container */
+.tech-icon-container {
+    width: 120px;
+    height: 120px;
+    border-radius: 30px;
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(123, 97, 255, 0.1));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 40px;
+    position: relative;
+    transition: all 0.6s ease;
+}
+
+.tech-card:hover .tech-icon-container {
+    transform: rotate(15deg) scale(1.1);
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(123, 97, 255, 0.2));
+}
+
+.tech-icon-container::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border-radius: 32px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+
+.tech-card:hover .tech-icon-container::before {
+    opacity: 1;
+}
+
+.tech-icon {
+    font-size: 48px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: all 0.6s ease;
+}
+
+.tech-card:hover .tech-icon {
+    transform: scale(1.2);
+}
+
+.card-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-light);
+    margin-bottom: 20px;
+    transition: all 0.4s ease;
+}
+
+.tech-card:hover .card-title {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.card-description {
+    color: var(--text-muted);
+    line-height: 1.7;
+    font-size: 1.1rem;
+}
+
+/* Quick Links Cards */
+.quicklinks-section {
+    background: rgba(15, 15, 25, 0.8);
+    backdrop-filter: blur(20px);
+    padding: 120px 0;
+    position: relative;
+    z-index: 1;
+}
+
+.quicklink-tech-card {
+    background: rgba(30, 30, 45, 0.8);
+    border-radius: 24px;
+    padding: 50px 40px;
+    border: 1px solid rgba(0, 212, 255, 0.1);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: center;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.quicklink-tech-card:hover {
+    transform: translateY(-15px);
+    border-color: var(--primary);
+    box-shadow: 
+        0 20px 40px rgba(0, 212, 255, 0.2),
+        0 0 30px rgba(0, 212, 255, 0.1);
+}
+
+.quicklink-icon-wrapper {
+    width: 100px;
+    height: 100px;
+    border-radius: 25px;
+    background: rgba(0, 212, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 35px;
+    position: relative;
+    transition: all 0.6s ease;
+}
+
+.quicklink-tech-card:hover .quicklink-icon-wrapper {
+    transform: scale(1.15) rotate(10deg);
+    background: rgba(0, 212, 255, 0.2);
+}
+
+.quicklink-icon-wrapper::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: 27px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+
+.quicklink-tech-card:hover .quicklink-icon-wrapper::after {
+    opacity: 1;
+}
+
+.quicklink-icon {
+    font-size: 42px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: all 0.6s ease;
+}
+
+.quicklink-tech-card:hover .quicklink-icon {
+    transform: scale(1.2);
+}
+
+.quicklink-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-light);
+    margin-bottom: 15px;
+}
+
+.quicklink-description {
+    color: var(--text-muted);
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.btn-quicklink-tech {
+    padding: 14px 35px;
+    border-radius: 50px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    font-weight: 600;
+    border: none;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-quicklink-tech:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(0, 212, 255, 0.3);
+}
+
+/* Section Headers */
+.section-header {
+    text-align: center;
+    margin-bottom: 80px;
+    position: relative;
+}
+
+.section-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 20px;
+}
+
+.section-subtitle {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* Tech Grid Pattern */
+.tech-grid {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+/* Floating Tech Elements */
+.tech-float {
+    position: absolute;
+    font-size: 24px;
+    color: rgba(0, 212, 255, 0.1);
+    animation: floatTech 6s ease-in-out infinite;
+}
+
+@keyframes floatTech {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-20px) rotate(10deg);
+    }
+}
+
+/* Animations */
+@keyframes fadeInTech {
+    from {
+        opacity: 0;
+        transform: translateY(40px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.animate-tech {
+    animation: fadeInTech 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.delay-1 { animation-delay: 0.2s; }
+.delay-2 { animation-delay: 0.4s; }
+.delay-3 { animation-delay: 0.6s; }
+
+/* Responsive */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 3rem;
+    }
+    
+    .section-title {
+        font-size: 2.5rem;
+    }
+    
+    .tech-card,
+    .quicklink-tech-card {
+        padding: 40px 30px;
+    }
+    
+    .tech-icon-container {
+        width: 90px;
+        height: 90px;
+        margin-bottom: 30px;
+    }
+    
+    .quicklink-icon-wrapper {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 25px;
+    }
+    
+    .tech-icon {
+        font-size: 36px;
+    }
+    
+    .quicklink-icon {
+        font-size: 32px;
+    }
+}
+</style>
+
+<!-- Full Screen Tech Doodle Background -->
+<div class="tech-doodle-bg" id="techDoodle"></div>
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="tech-grid"></div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center hero-content">
+                <h1 class="hero-title animate-tech">Chidanand Khot</h1>
+                <p class="hero-subtitle animate-tech delay-1">Full Stack Developer & Tech Innovator</p>
+                
+                <div class="d-flex flex-wrap justify-content-center gap-4 animate-tech delay-2">
+                    <a href="{{ url_for('download_resume') }}" class="btn-tech">
+                        <i class="fas fa-download me-2"></i>Download Resume
+                    </a>
+                    <a href="{{ url_for('contact') }}" class="btn-tech-outline">
+                        <i class="fas fa-paper-plane me-2"></i>Contact Me
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Services Section -->
+<section class="services-section">
+    <div class="container">
+        <div class="section-header animate-tech">
+            <h2 class="section-title">What I Do</h2>
+            <p class="section-subtitle">I specialize in creating modern, responsive web applications with cutting-edge technologies</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="tech-card animate-tech delay-1">
+                    <div class="tech-icon-container">
+                        <i class="fas fa-laptop-code tech-icon"></i>
+                    </div>
+                    <h3 class="card-title">Web Development</h3>
+                    <p class="card-description">Building responsive and interactive websites using modern frameworks and technologies.</p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="tech-card animate-tech delay-2">
+                    <div class="tech-icon-container">
+                        <i class="fas fa-mobile-alt tech-icon"></i>
+                    </div>
+                    <h3 class="card-title">Responsive Design</h3>
+                    <p class="card-description">Creating mobile-first designs that work seamlessly across all devices and screen sizes.</p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="tech-card animate-tech delay-3">
+                    <div class="tech-icon-container">
+                        <i class="fas fa-server tech-icon"></i>
+                    </div>
+                    <h3 class="card-title">Backend Systems</h3>
+                    <p class="card-description">Designing robust backend systems and APIs to power modern web applications.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Quick Links Section -->
+<section class="quicklinks-section">
+    <div class="container">
+        <div class="section-header animate-tech">
+            <h2 class="section-title">Explore My Work</h2>
+            <p class="section-subtitle">Discover more about my skills, projects, and professional journey</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-3">
+                <div class="quicklink-tech-card animate-tech delay-1">
+                    <div class="quicklink-icon-wrapper">
+                        <i class="fas fa-project-diagram quicklink-icon"></i>
+                    </div>
+                    <h4 class="quicklink-title">Projects</h4>
+                    <p class="quicklink-description">Explore my latest projects and contributions.</p>
+                    <a href="{{ url_for('projects') }}" class="btn-quicklink-tech">View Projects</a>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="quicklink-tech-card animate-tech delay-2">
+                    <div class="quicklink-icon-wrapper">
+                        <i class="fas fa-code quicklink-icon"></i>
+                    </div>
+                    <h4 class="quicklink-title">Skills</h4>
+                    <p class="quicklink-description">Discover the technologies I'm proficient in.</p>
+                    <a href="{{ url_for('skills') }}" class="btn-quicklink-tech">View Skills</a>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="quicklink-tech-card animate-tech delay-3">
+                    <div class="quicklink-icon-wrapper">
+                        <i class="fas fa-certificate quicklink-icon"></i>
+                    </div>
+                    <h4 class="quicklink-title">Certificates</h4>
+                    <p class="quicklink-description">Browse my professional certifications.</p>
+                    <a href="{{ url_for('certificates') }}" class="btn-quicklink-tech">View Certificates</a>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="quicklink-tech-card animate-tech delay-1">
+                    <div class="quicklink-icon-wrapper">
+                        <i class="fas fa-user quicklink-icon"></i>
+                    </div>
+                    <h4 class="quicklink-title">About Me</h4>
+                    <p class="quicklink-description">Learn more about my background and experience.</p>
+                    <a href="{{ url_for('about') }}" class="btn-quicklink-tech">About Me</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+// Tech Doodle Background Generator
+function createTechDoodle() {
+    const doodleContainer = document.getElementById('techDoodle');
+    
+    // Clear existing doodles
+    doodleContainer.innerHTML = '';
+    
+    // Add circuit lines
+    for (let i = 0; i < 20; i++) {
+        const circuit = document.createElement('div');
+        circuit.className = 'circuit-line';
+        circuit.style.width = Math.random() * 200 + 50 + 'px';
+        circuit.style.height = '2px';
+        circuit.style.left = Math.random() * 100 + '%';
+        circuit.style.top = Math.random() * 100 + '%';
+        circuit.style.transform = `rotate(${Math.random() * 360}deg)`;
+        doodleContainer.appendChild(circuit);
+    }
+    
+    // Add code snippets
+    for (let i = 0; i < 30; i++) {
+        const code = document.createElement('div');
+        code.className = 'code-line';
+        code.textContent = getCodeSnippet();
+        code.style.left = Math.random() * 100 + '%';
+        code.style.top = Math.random() * 100 + '%';
+        code.style.transform = `rotate(${Math.random() * 15 - 7.5}deg)`;
+        doodleContainer.appendChild(code);
+    }
+    
+    // Add binary numbers
+    for (let i = 0; i < 15; i++) {
+        const binary = document.createElement('div');
+        binary.className = 'binary-bg';
+        binary.textContent = generateBinaryString(40);
+        binary.style.left = Math.random() * 100 + '%';
+        binary.style.top = Math.random() * 100 + '%';
+        binary.style.transform = `rotate(${Math.random() * 10 - 5}deg)`;
+        doodleContainer.appendChild(binary);
+    }
+}
+
+function getCodeSnippet() {
+    const snippets = [
+        'function() {',
+        'const tech = "awesome";',
+        'return tech;',
+        '}',
+        'import React from "react";',
+        'export default App;',
+        'def hello_world():',
+        'print("Hello World")',
+        'class Developer:',
+        'pass',
+        'npm start',
+        'git push origin main',
+        'docker build -t app .',
+        'kubectl apply -f',
+        'SELECT * FROM users;',
+        'JSON.parse(data)',
+        'axios.get(url)',
+        'useEffect(() => {}, [])'
+    ];
+    return snippets[Math.floor(Math.random() * snippets.length)];
+}
+
+function generateBinaryString(length) {
+    let binary = '';
+    for (let i = 0; i < length; i++) {
+        binary += Math.round(Math.random());
+    }
+    return binary;
+}
+
+// Initialize doodle on load
+document.addEventListener('DOMContentLoaded', function() {
+    createTechDoodle();
+    
+    // Add floating tech elements
+    const sections = ['.hero-section', '.services-section', '.quicklinks-section'];
+    sections.forEach(sectionClass => {
+        const section = document.querySelector(sectionClass);
+        for (let i = 0; i < 5; i++) {
+            const float = document.createElement('div');
+            float.className = 'tech-float';
+            float.innerHTML = '<i class="fas fa-code"></i>';
+            float.style.left = Math.random() * 100 + '%';
+            float.style.top = Math.random() * 100 + '%';
+            float.style.animationDelay = Math.random() * 2 + 's';
+            section.appendChild(float);
+        }
+    });
+    
+    // Add scroll animations
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0) scale(1)';
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    });
+
+    document.querySelectorAll('.tech-card, .quicklink-tech-card').forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(40px) scale(0.9)';
+        card.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+        observer.observe(card);
+    });
+});
+
+// Animate circuit lines on mouse move
+document.addEventListener('mousemove', (e) => {
+    const circuits = document.querySelectorAll('.circuit-line');
+    circuits.forEach(circuit => {
+        const rect = circuit.getBoundingClientRect();
+        const distance = Math.sqrt(
+            Math.pow(e.clientX - (rect.left + rect.width / 2), 2) +
+            Math.pow(e.clientY - (rect.top + rect.height / 2), 2)
+        );
+        
+        if (distance < 200) {
+            circuit.style.opacity = '0.1 + ' + (200 - distance) / 500;
+            circuit.style.transform += ' scale(1.2)';
+        } else {
+            circuit.style.opacity = '0.05';
+            circuit.style.transform = circuit.style.transform.replace(' scale(1.2)', '');
+        }
+    });
+});
+</script>
+{% endblock %}
