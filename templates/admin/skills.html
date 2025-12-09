@@ -1,0 +1,55 @@
+{% extends "admin/base.html" %}
+
+{% block admin_content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Manage Skills</h2>
+    <a href="{{ url_for('admin_skill_form') }}" class="btn btn-primary">
+        <i class="fas fa-plus me-2"></i>Add New Skill
+    </a>
+</div>
+
+{% if skills %}
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Display</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for skill in skills %}
+                    <tr>
+                        <td>{{ skill.name }}</td>
+                        <td>
+                            {% if skill.image %}
+                                <img src="{{ url_for('static', filename='images/skills/' + skill.image) }}" alt="{{ skill.name }}" width="50">
+                            {% else %}
+                                <i class="fas fa-{{ skill.icon }}"></i> ({{ skill.icon }})
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ url_for('admin_skill_form', skill_id=skill.id) }}" class="btn btn-sm btn-primary me-2">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                            <form method="POST" action="{{ url_for('delete_skill', skill_id=skill.id) }}" class="d-inline">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                <button type="submit" class="btn btn-sm btn-danger" 
+                                        onclick="return confirm('Are you sure you want to delete this skill?')">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div class="text-center py-5">
+        <h3>No skills found</h3>
+        <p class="text-muted">Add your first skill using the button above.</p>
+    </div>
+{% endif %}
+{% endblock %}

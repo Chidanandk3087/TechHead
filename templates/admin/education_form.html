@@ -1,0 +1,130 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{{ 'Edit Education' if education else 'Add Education' }}{% endblock %}
+
+{% block admin_content %}
+<h2><i class="fas fa-graduation-cap me-2"></i>{{ 'Edit Education' if education else 'Add Education' }}</h2>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <form method="POST">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="mb-3">
+                        {{ form.degree.label(class="form-label") }}
+                        {% if form.degree.errors %}
+                            {{ form.degree(class="form-control is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.degree.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.degree(class="form-control") }}
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form.institution.label(class="form-label") }}
+                        {% if form.institution.errors %}
+                            {{ form.institution(class="form-control is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.institution.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.institution(class="form-control") }}
+                        {% endif %}
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form.start_date.label(class="form-label") }}
+                            {% if form.start_date.errors %}
+                                {{ form.start_date(class="form-control is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.start_date.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.start_date(class="form-control") }}
+                            {% endif %}
+                            <div class="form-text">e.g., 2018</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            {{ form.end_date.label(class="form-label") }}
+                            {% if form.end_date.errors %}
+                                {{ form.end_date(class="form-control is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.end_date.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.end_date(class="form-control") }}
+                            {% endif %}
+                            <div class="form-text">e.g., 2022 or Present</div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form.description.label(class="form-label") }}
+                        {% if form.description.errors %}
+                            {{ form.description(class="form-control is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.description.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.description(class="form-control", rows="4") }}
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form.image.label(class="form-label") }}
+                        {{ form.image(class="form-control") }}
+                        {% if form.image.errors %}
+                            <div class="invalid-feedback d-block">
+                                {% for error in form.image.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <div class="form-text">Upload an image for this education item (optional, JPG, PNG, GIF)</div>
+                        {% if education and education.image %}
+                            <div class="mt-2">
+                                <img src="{{ url_for('static', filename='images/education/' + education.image) }}" alt="{{ education.institution }}" class="img-thumbnail" style="max-width: 200px;">
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form.order.label(class="form-label") }}
+                        {% if form.order.errors %}
+                            {{ form.order(class="form-control is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.order.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.order(class="form-control") }}
+                        {% endif %}
+                        <div class="form-text">Lower numbers appear first</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form.submit(class="btn btn-primary me-2") }}
+                        <a href="{{ url_for('admin_education') }}" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

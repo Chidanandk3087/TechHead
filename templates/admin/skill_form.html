@@ -1,0 +1,57 @@
+{% extends "admin/base.html" %}
+
+{% block admin_content %}
+<h2>{% if skill %}Edit Skill{% else %}Add New Skill{% endif %}</h2>
+
+<form method="POST" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    
+    <div class="mb-3">
+        {{ form.name.label(class="form-label") }}
+        {% if form.name.errors %}
+            {{ form.name(class="form-control is-invalid") }}
+            <div class="invalid-feedback">
+                {% for error in form.name.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+        {% else %}
+            {{ form.name(class="form-control") }}
+        {% endif %}
+    </div>
+    
+    <div class="mb-3">
+        {{ form.image.label(class="form-label") }}
+        {% if form.image.errors %}
+            {{ form.image(class="form-control is-invalid") }}
+            <div class="invalid-feedback">
+                {% for error in form.image.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+        {% else %}
+            {{ form.image(class="form-control") }}
+        {% endif %}
+        {% if skill and skill.image %}
+            <div class="mt-2">
+                <small class="text-muted">Current image:</small>
+                <br>
+                <img src="{{ url_for('static', filename='images/skills/' + skill.image) }}" alt="{{ skill.name }}" width="50">
+            </div>
+        {% endif %}
+        <div class="form-text">Upload a logo or image for this skill (optional)</div>
+    </div>
+    
+    <div class="mb-3">
+        <label class="form-label">Icon Class</label>
+        <input type="text" class="form-control" name="icon" placeholder="e.g., python, js, html5" 
+               value="{% if skill %}{{ skill.icon }}{% endif %}">
+        <div class="form-text">Enter Font Awesome icon class (without 'fa-' prefix) - used as fallback if no image is uploaded</div>
+    </div>
+    
+    <div class="mb-3">
+        {{ form.submit(class="btn btn-primary me-2") }}
+        <a href="{{ url_for('admin_skills') }}" class="btn btn-secondary">Cancel</a>
+    </div>
+</form>
+{% endblock %}

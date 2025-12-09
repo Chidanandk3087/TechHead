@@ -1,0 +1,46 @@
+{% extends "admin/base.html" %}
+
+{% block admin_content %}
+<h2>{% if certificate %}Edit Certificate{% else %}Add New Certificate{% endif %}</h2>
+
+<form method="POST" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    
+    <div class="mb-3">
+        {{ form.title.label(class="form-label") }}
+        {% if form.title.errors %}
+            {{ form.title(class="form-control is-invalid") }}
+            <div class="invalid-feedback">
+                {% for error in form.title.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+        {% else %}
+            {{ form.title(class="form-control") }}
+        {% endif %}
+    </div>
+    
+    <div class="mb-3">
+        {{ form.image.label(class="form-label") }}
+        {{ form.image(class="form-control") }}
+        {% if form.image.errors %}
+            <div class="invalid-feedback d-block">
+                {% for error in form.image.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <div class="form-text">Upload an image for this certificate (JPG, PNG, GIF)</div>
+        {% if certificate and certificate.image %}
+            <div class="mt-2">
+                <img src="{{ url_for('static', filename='images/certificates/' + certificate.image) }}" alt="{{ certificate.title }}" class="img-thumbnail" style="max-width: 200px;">
+            </div>
+        {% endif %}
+    </div>
+    
+    <div class="mb-3">
+        {{ form.submit(class="btn btn-primary me-2") }}
+        <a href="{{ url_for('admin_certificates') }}" class="btn btn-secondary">Cancel</a>
+    </div>
+</form>
+{% endblock %}

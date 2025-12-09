@@ -1,0 +1,71 @@
+{% extends "admin/base.html" %}
+
+{% block admin_content %}
+<div class="row">
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-primary">
+            <div class="card-body">
+                <h5 class="card-title">Projects</h5>
+                <h2>{{ project_count }}</h2>
+                <p class="mb-0">Total projects</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-success">
+            <div class="card-body">
+                <h5 class="card-title">Skills</h5>
+                <h2>{{ skill_count }}</h2>
+                <p class="mb-0">Total skills</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-info">
+            <div class="card-body">
+                <h5 class="card-title">Certificates</h5>
+                <h2>{{ certificate_count }}</h2>
+                <p class="mb-0">Total certificates</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-warning">
+            <div class="card-body">
+                <h5 class="card-title">Messages</h5>
+                <h2>{{ message_count }}</h2>
+                <p class="mb-0">New messages</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Quick Actions</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <a href="{{ url_for('admin_project_form') }}" class="btn btn-primary w-100">
+                            <i class="fas fa-plus me-2"></i>Add New Project
+                        </a>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <a href="{{ url_for('admin_skill_form') }}" class="btn btn-success w-100">
+                            <i class="fas fa-plus me-2"></i>Add New Skill
+                        </a>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <a href="{{ url_for('admin_certificate_form') }}" class="btn btn-info w-100">
+                            <i class="fas fa-plus me-2"></i>Add New Certificate
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

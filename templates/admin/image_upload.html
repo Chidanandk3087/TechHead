@@ -1,0 +1,45 @@
+{% extends "admin/base.html" %}
+
+{% block admin_content %}
+<h2>Upload {{ image_name }}</h2>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="mb-3">
+                        {{ form.image.label(class="form-label") }}
+                        {{ form.image(class="form-control") }}
+                        {% if form.image.errors %}
+                            <div class="invalid-feedback d-block">
+                                {% for error in form.image.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <div class="form-text">Upload JPG, JPEG, PNG, or GIF</div>
+                    </div>
+                    
+                    {% if current_image %}
+                    <div class="mb-3">
+                        <label class="form-label">Current Image:</label>
+                        <div>
+                            <img src="{{ url_for('static', filename='images/' + current_image.filename) }}" 
+                                 class="img-thumbnail" style="max-width: 300px;">
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="mb-3">
+                        {{ form.submit(class="btn btn-primary me-2") }}
+                        <a href="{{ url_for('admin_images') }}" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends "admin/base.html" %}
+
+{% block admin_content %}
+<h2>{% if project %}Edit Project{% else %}Add New Project{% endif %}</h2>
+
+<form method="POST" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    
+    <div class="mb-3">
+        {{ form.title.label(class="form-label") }}
+        {% if form.title.errors %}
+            {{ form.title(class="form-control is-invalid") }}
+            <div class="invalid-feedback">
+                {% for error in form.title.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+        {% else %}
+            {{ form.title(class="form-control") }}
+        {% endif %}
+    </div>
+    
+    <div class="mb-3">
+        {{ form.description.label(class="form-label") }}
+        {% if form.description.errors %}
+            {{ form.description(class="form-control is-invalid") }}
+            <div class="invalid-feedback">
+                {% for error in form.description.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+        {% else %}
+            {{ form.description(class="form-control", rows="5") }}
+        {% endif %}
+    </div>
+    
+    <div class="mb-3">
+        {{ form.link.label(class="form-label") }}
+        {% if form.link.errors %}
+            {{ form.link(class="form-control is-invalid") }}
+            <div class="invalid-feedback">
+                {% for error in form.link.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+        {% else %}
+            {{ form.link(class="form-control") }}
+        {% endif %}
+    </div>
+    
+    <div class="mb-3">
+        <label class="form-label">Project Image</label>
+        <input type="file" class="form-control" name="image">
+        <div class="form-text">Upload an image for this project (optional)</div>
+    </div>
+    
+    <div class="mb-3">
+        {{ form.submit(class="btn btn-primary me-2") }}
+        <a href="{{ url_for('admin_projects') }}" class="btn btn-secondary">Cancel</a>
+    </div>
+</form>
+{% endblock %}

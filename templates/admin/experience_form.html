@@ -1,0 +1,112 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{{ 'Edit Experience' if experience else 'Add Experience' }}{% endblock %}
+
+{% block admin_content %}
+<h2><i class="fas fa-briefcase me-2"></i>{{ 'Edit Experience' if experience else 'Add Experience' }}</h2>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <form method="POST">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="mb-3">
+                        {{ form.position.label(class="form-label") }}
+                        {% if form.position.errors %}
+                            {{ form.position(class="form-control is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.position.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.position(class="form-control") }}
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form.company.label(class="form-label") }}
+                        {% if form.company.errors %}
+                            {{ form.company(class="form-control is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.company.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.company(class="form-control") }}
+                        {% endif %}
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form.start_date.label(class="form-label") }}
+                            {% if form.start_date.errors %}
+                                {{ form.start_date(class="form-control is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.start_date.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.start_date(class="form-control") }}
+                            {% endif %}
+                            <div class="form-text">e.g., 2022</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            {{ form.end_date.label(class="form-label") }}
+                            {% if form.end_date.errors %}
+                                {{ form.end_date(class="form-control is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.end_date.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.end_date(class="form-control") }}
+                            {% endif %}
+                            <div class="form-text">e.g., 2023 or Present</div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form.description.label(class="form-label") }}
+                        {% if form.description.errors %}
+                            {{ form.description(class="form-control is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.description.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.description(class="form-control", rows="4") }}
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form.order.label(class="form-label") }}
+                        {% if form.order.errors %}
+                            {{ form.order(class="form-control is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.order.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.order(class="form-control") }}
+                        {% endif %}
+                        <div class="form-text">Lower numbers appear first</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form.submit(class="btn btn-primary me-2") }}
+                        <a href="{{ url_for('admin_experience') }}" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
